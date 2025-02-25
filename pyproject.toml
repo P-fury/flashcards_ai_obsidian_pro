@@ -58,5 +58,6 @@ warn_unused_configs = true  # Ostrzega, gdy jakaś opcja konfiguracji jest nieu�
 no_implicit_optional = true  # Nie pozwala na None, jeśli nie jest jawnie podany w Optional
 
 [[tool.mypy.overrides]]
-module = "tests.*"
-disallow_untyped_defs = f.alse  # W testach można nie podawać typów
+files = "tests/**/*.py"
+#module = "tests.*"
+disallow_untyped_defs = false  # W testach można nie podawać typów
