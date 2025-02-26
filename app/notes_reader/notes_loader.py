@@ -5,12 +5,14 @@ from typing import Iterable, List, override
 
 from app.models.note_models import Note
 from app.notes_reader.notes_loader_abc import NotesLoaderABC
+from app.tools.auto_repr import auto_repr
 
 
-class NotesLoader(NotesLoaderABC):
+@auto_repr
+class MarkdownNotesLoader(NotesLoaderABC):
     def __init__(self, folder_path: str, tags: Iterable[str]) -> None:
         self.folder_path = folder_path
-        self.tags = tags
+        self.tags: set[str] = set(tags)
 
     @override
     @property
@@ -19,6 +21,7 @@ class NotesLoader(NotesLoaderABC):
 
     @folder_path.setter
     def folder_path(self, folder_path: str) -> None:
+        # TODO: add path validation, think about Path class
         self._folder_path = folder_path
 
     @override
@@ -34,32 +37,48 @@ class NotesLoader(NotesLoaderABC):
             tag_ = tag.lower().strip()
             if not tag_.startswith("#"):
                 tag_ = "#" + tag_
-            tags_normalized.add(tag_)  # Dodajemy zawsze, niezależnie od tego, czy zaczyna się od #
+            tags_normalized.add(tag_)
         self._tags = tags_normalized
 
     @staticmethod
-    def __find_tags(content: str) -> set[str]:
+    def find_tags(content: str) -> set[str]:
+        # TODO: consider function
         return set(re.findall(r"#\w+", content))
 
-    def __check_tag(self, file_tags: set[str]) -> bool:
+    def check_tags(self, file_tags: set[str]) -> bool:
         return any(tag for tag in file_tags if tag in self.tags)
+
+    def get_file_list(self) -> list[str]:
+        file_list: list[str] = []
+
+        for filename in os.listdir(self.folder_path):
+            if filename.endswith(".md"):
+                file_list.append(filename)
+
+        return file_list
+
+    @staticmethod
+    def __load_file(file_path: str) -> str:
+        with open(file_path, "r", encoding="utf-8") as file:
+            return file.read()
 
     @override
     def load(self) -> List[Note]:
         notes = []
 
-        for filename in os.listdir(self.folder_path):
-            if filename.endswith(".md"):
-                file_path = os.path.join(self.folder_path, filename)
-                with open(file_path, "r", encoding="utf-8") as file:
-                    content = file.read()
-                    file_tags = self.__find_tags(content)
-                    if self.__check_tag(file_tags):
-                        note = Note(
-                            title=filename[:-3],
-                            content=content,
-                            tags=file_tags,
-                            updated_at=datetime.fromtimestamp(os.path.getmtime(file_path)),
-                        )
-                        notes.append(note)
+        for filename in self.get_file_list():
+            file_path = os.path.join(self.folder_path, filename)
+            content = self.__load_file(file_path)
+            file_tags = self.find_tags(content)
+            if self.check_tags(file_tags):
+                note = Note(
+                    title=filename[:-3],
+                    content=content,
+                    tags=file_tags,
+                    updated_at=datetime.fromtimestamp(os.path.getmtime(file_path)),
+                )
+                notes.append(note)
         return notes
+
+    def __str__(self) -> str:
+        return f"Directory {self.folder_path} contains {', '.join(self.tags)}."
