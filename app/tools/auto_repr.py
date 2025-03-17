@@ -17,6 +17,7 @@ def auto_repr(cls: T) -> T:
     signature: inspect.Signature = inspect.signature(cls.__init__)
     parameters_names: list[str] = list(signature.parameters)[1:]
 
+    # TODO check object members
     if not all(members.get(name, None) for name in parameters_names):
         raise TypeError(f'Cannot apply auto_repr to {cls.__name__} because no all'
                         f'__init__ parameters have matching properties.')
@@ -30,3 +31,5 @@ def auto_repr(cls: T) -> T:
     setattr(cls, "__repr__", synthesized_repr)
 
     return cls
+
+
