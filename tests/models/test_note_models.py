@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime
 
@@ -7,6 +8,7 @@ from app.models.note_models import Note
 
 
 def test_empty_title_raise_value_error():
+    print(os.getenv("TESTS"))  # check for test environment
     with pytest.raises(ValueError, match="Title must be a not-empty string."):
         Note(
             title="",
