@@ -1,10 +1,19 @@
-import logging
+import json
+import logging.config
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
 
+def setup_logging():
+    config_file = Path(".logging_configs/base_config.json")
+    with open(config_file, 'r') as file:
+        config = json.load(file)
+    logging.config.dictConfig(config)
+
+
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    setup_logging()
     logger.debug("debug message")
     logger.info("info message")
     logger.warning("warning message")
