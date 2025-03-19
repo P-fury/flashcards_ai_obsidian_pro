@@ -22,9 +22,6 @@ wheels/
 venv/
 .venv/
 
-# Environment variables
-.env
-.env-default
 
 # Thumbnails
 ._*
@@ -52,5 +49,3 @@ Temporary Items/
 # pytest
 .coverage
 
-**/**/*.log
-**/**/*.log*

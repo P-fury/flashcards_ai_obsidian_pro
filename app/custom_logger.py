@@ -1,7 +1,7 @@
+import datetime as dt
 import json
 import logging
-from typing import override, Final, Any
-import datetime as dt
+from typing import Any, Final, override
 
 LOG_RECORD_BUILTIN_ATTRS: Final = {
     "args",
@@ -36,7 +36,7 @@ class JSONFormatter(logging.Formatter):
         self.fmt_keys = fmt_keys or {}
 
     @override
-    def format(self, record: logging.LogRecord):
+    def format(self, record: logging.LogRecord) -> str:
         message = self._prepare_log_dict(record)
         return json.dumps(message, default=str)
 
