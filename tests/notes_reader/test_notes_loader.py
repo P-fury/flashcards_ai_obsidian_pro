@@ -15,15 +15,12 @@ def notes_loader():
 
 @pytest.fixture(scope='session')
 def note_docker():
-    return """
-    # Docker
-    
-    Multiline Content
-    Multiline Content
-    
-    #docker#pytest #python
-    """
+    return """# Docker
 
+Multiline Content
+Multiline Content
+
+#docker#pytest #python"""
 
 @pytest.fixture(scope='session')
 def file_md(note_docker):
@@ -122,30 +119,32 @@ class DummyNoteLoader(MarkdownNotesLoader):
     """
 
     def find_tags(self, content):
-        return {'#dokcer', '#pytest'}
+        return {'#docker', '#pytest'}
 
     def check_tags(self, file_tags):
         return True
 
 
 def test_load_one_note(monkeypatch):
+
     loader = DummyNoteLoader("./mock", ["python", "pytest"])
 
-    notes = loader.load()
-    note = notes[0]
     fixed_timestamp = 10000000
     monkeypatch.setattr(os.path, 'getmtime', lambda path: fixed_timestamp)
 
+    notes = loader.load()
+    note = notes[0]
+
     assert len(notes) == 1
-    assert note.title == 'note1'
+    assert note.title == "note1"
+    print(note.content)
     assert note.content == """
-        # Docker
-
-        Multiline Content
-        Multiline Content
-
-        #docker#pytest #python
-        """
-
-    assert note.tags == {'#pytest', '#docker'}
+    # Docker
+    
+    Multiline Content
+    Multiline Content
+    
+    #docker#pytest #python
+    """
+    assert note.tags == {'#docker', '#pytest'}
     assert note.updated_at == datetime.fromtimestamp(fixed_timestamp)
