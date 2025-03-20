@@ -65,7 +65,7 @@ class MarkdownNotesLoader(NotesLoaderABC):
         return file_list
 
     @staticmethod
-    def __load_file(file_path: str) -> str:
+    def load_file(file_path: str) -> str:
         with open(file_path, "r", encoding="utf-8") as file:
             return file.read()
 
@@ -75,7 +75,7 @@ class MarkdownNotesLoader(NotesLoaderABC):
 
         for filename in self.get_file_list():
             file_path = os.path.join(self.folder_path, filename)
-            content = self.__load_file(file_path)
+            content = self.load_file(file_path)
             file_tags = self.find_tags(content)
             if self.check_tags(file_tags):
                 note = Note(
