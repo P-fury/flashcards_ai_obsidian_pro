@@ -18,15 +18,15 @@ completion = client.chat.completions.create(
             {
              difficulty_level: DifficultyEnum,
                 tags: list[NonEmptyString],
-                front_site: NonEmptyString,
-                back_site: NonEmptyString,
+                front_side: NonEmptyString,
+                back_side: NonEmptyString,
             }
             
             DifficultyEnum:    easy, medium, hard
             
             tags: są będą w pliku markdown, który prześlę,  w format #<tag>
-            front_site: pytanie
-            back_site: odpowiedż 
+            front_side: pytanie
+            back_side: odpowiedż 
             
             wynikiem ma być czysty kod w json.
             """},
