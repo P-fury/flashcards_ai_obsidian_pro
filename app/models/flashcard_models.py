@@ -16,10 +16,10 @@ class NonEmptyString(str):
 @dataclass(frozen=True, kw_only=True, slots=True)
 class FlashCard:
     difficulty_level: DifficultyEnum
-    tags: list[str]
-    front_side: str
-    back_side: str
-    origin: str
+    tags:  list[NonEmptyString]
+    front_side: NonEmptyString
+    back_side: NonEmptyString
+    origin: NonEmptyString
 
     def __post_init__(self) -> None:
         if not self.front_side:
