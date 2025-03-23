@@ -1,0 +1,234 @@
+{
+  "_default": {
+    "1": {
+      "difficulty_level": "medium",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Czym jest Docker?",
+      "back_side": "Docker to platforma do tworzenia, uruchamiania i zarz\u0105dzania kontenerami. Kontenery umo\u017cliwiaj\u0105 uruchamianie aplikacji w izolowanych \u015brodowiskach, co zapewnia ich przeno\u015bno\u015b\u0107 i sp\u00f3jno\u015b\u0107 niezale\u017cnie od infrastruktury.",
+      "origin": "docker.md"
+    },
+    "2": {
+      "difficulty_level": "easy",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Co to jest Obraz (Image)?",
+      "back_side": "Obraz (Image) to gotowy pakiet aplikacji z zale\u017cno\u015bciami.",
+      "origin": "docker.md"
+    },
+    "3": {
+      "difficulty_level": "easy",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Co to jest Kontener (Container)?",
+      "back_side": "Kontener (Container) to uruchomiona instancja obrazu.",
+      "origin": "docker.md"
+    },
+    "4": {
+      "difficulty_level": "medium",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Co to jest Dockerfile?",
+      "back_side": "Dockerfile to plik definiuj\u0105cy spos\u00f3b budowania obrazu.",
+      "origin": "docker.md"
+    },
+    "5": {
+      "difficulty_level": "medium",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Co to jest Docker Compose?",
+      "back_side": "Docker Compose to narz\u0119dzie do zarz\u0105dzania wieloma kontenerami.",
+      "origin": "docker.md"
+    },
+    "6": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak pobra\u0107 obraz?",
+      "back_side": "docker pull <nazwa_obrazu>",
+      "origin": "docker.md"
+    },
+    "7": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak wy\u015bwietli\u0107 list\u0119 obraz\u00f3w?",
+      "back_side": "docker images",
+      "origin": "docker.md"
+    },
+    "8": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak usun\u0105\u0107 obraz?",
+      "back_side": "docker rmi <id_obrazu>",
+      "origin": "docker.md"
+    },
+    "9": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak uruchomi\u0107 kontener?",
+      "back_side": "docker run -d --name <nazwa> <obraz>",
+      "origin": "docker.md"
+    },
+    "10": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak wy\u015bwietli\u0107 list\u0119 uruchomionych kontener\u00f3w?",
+      "back_side": "docker ps",
+      "origin": "docker.md"
+    },
+    "11": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak zatrzyma\u0107 kontener?",
+      "back_side": "docker stop <id_kontenera>",
+      "origin": "docker.md"
+    },
+    "12": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak usun\u0105\u0107 kontener?",
+      "back_side": "docker rm <id_kontenera>",
+      "origin": "docker.md"
+    },
+    "13": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak uruchomi\u0107 kontenery na podstawie docker-compose.yml?",
+      "back_side": "docker-compose up -d",
+      "origin": "docker.md"
+    },
+    "14": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak zatrzyma\u0107 kontenery?",
+      "back_side": "docker-compose down",
+      "origin": "docker.md"
+    },
+    "15": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak utworzy\u0107 w\u0142asny obraz?",
+      "back_side": "1. Utw\u00f3rz plik Dockerfile. 2. Zbuduj obraz: docker build -t myapp .",
+      "origin": "docker.md"
+    },
+    "16": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak uruchomi\u0107 kontener z w\u0142asnym obrazem?",
+      "back_side": "docker run -d -p 5000:5000 myapp",
+      "origin": "docker.md"
+    },
+    "17": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak stworzy\u0107 wolumin?",
+      "back_side": "docker volume create myvolume",
+      "origin": "docker.md"
+    },
+    "18": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak uruchomi\u0107 kontener z woluminem?",
+      "back_side": "docker run -v myvolume:/data myapp",
+      "origin": "docker.md"
+    },
+    "19": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak wy\u015bwietli\u0107 list\u0119 sieci?",
+      "back_side": "docker network ls",
+      "origin": "docker.md"
+    },
+    "20": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak stworzy\u0107 sie\u0107?",
+      "back_side": "docker network create mynetwork",
+      "origin": "docker.md"
+    },
+    "21": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak uruchomi\u0107 kontener w sieci?",
+      "back_side": "docker run --network mynetwork myapp",
+      "origin": "docker.md"
+    },
+    "22": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak wej\u015b\u0107 do dzia\u0142aj\u0105cego kontenera?",
+      "back_side": "docker exec -it <id_kontenera> /bin/sh",
+      "origin": "docker.md"
+    },
+    "23": {
+      "difficulty_level": "hard",
+      "tags": [
+        "#docker",
+        "#containers"
+      ],
+      "front_side": "Jak zobaczy\u0107 logi kontenera?",
+      "back_side": "docker logs <id_kontenera>",
+      "origin": "docker.md"
+    }
+  }
+}

@@ -1,18 +1,16 @@
 import logging
-import os
 
 from app.ai.card_gen import CardGen
-from app.models.flashcard_models import FlashCard, NonEmptyString, DifficultyEnum
+from app.models.flashcard_models import DifficultyEnum, FlashCardSrc, NonEmptyString
 from app.models.note_models import Note
 from app.notes_reader.notes_loader import MarkdownNotesLoader
-from app.settings.settings import dirname_app
 from app.tools.parse_output_to_json import parse_output_to_json
 
 logger = logging.getLogger(__name__)
 
-def create_cards() -> list[FlashCard]:
+def create_cards() -> list[FlashCardSrc]:
     vault_path =  "obsidian_vault"
-    notes_loader = MarkdownNotesLoader(vault_path, {"pytest"})
+    notes_loader = MarkdownNotesLoader(vault_path, {"docker"})
     notes = notes_loader.load()
 
     client_ai = CardGen(model="gpt-4o-mini")
@@ -28,17 +26,18 @@ def create_cards() -> list[FlashCard]:
         if isinstance(flashcards, list):
             for data in flashcards:
                 cards.append(create_flashcard(data, note))
-        elif isinstance(flashcards, dict):
-            cards.append(create_flashcard(flashcards, note))
+        elif isinstance(flashcards, dict) and "flashcards" in flashcards:
+            for data in flashcards["flashcards"]:
+                cards.append(create_flashcard(data, note))
 
 
     return cards
 
 
-def create_flashcard(data: dict[str, str], note: Note) -> FlashCard:
-    return FlashCard(
+def create_flashcard(data: dict[str, str], note: Note) -> FlashCardSrc:
+    return FlashCardSrc(
         difficulty_level=DifficultyEnum(data["difficulty_level"]),
-        tags={NonEmptyString(tag) for tag in note.tags},
+        tags=[NonEmptyString(tag) for tag in note.tags],
         front_side=NonEmptyString(data["front_side"]),
         back_side=NonEmptyString(data["back_side"]),
         origin=NonEmptyString(f"{note.title}.md"),

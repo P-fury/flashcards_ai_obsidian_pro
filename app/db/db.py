@@ -1,24 +1,26 @@
 from pathlib import Path
-from typing import cast, Any
+from typing import Any, cast
 
-from tinydb import TinyDB, Query
+from tinydb import Query, TinyDB
 
 
 class DBTiny:
     def __init__(self, db_dir: Path, db_file_prefix: str):
         self._db = TinyDB(
-            db_path=db_dir / f"{db_file_prefix}.json",
+            path=db_dir / f"{db_file_prefix}.json",
             create_dirs=True
         )
 
     def create(self, item: dict) -> int:
         return cast(int, self._db.insert(item))
 
-    def read(self, idx: int) -> dict:
-        return cast(dict, self._db.get(doc_id=idx))
+    def get(self, idx: int | list[int]) -> dict | list[dict]:
+        if isinstance(idx, int):
+            return cast(dict, self._db.get(doc_id=idx))
+        return [{**doc, "id": doc.doc_id} for doc in self._db.get(doc_ids=idx)]
 
     def read_all(self) -> list[dict]:
-        return cast(list[dict], self._db.all())
+        return [{**doc, "id": doc.doc_id} for doc in self._db.all()]
 
     def filter(self, **kwargs) -> list:
         query = Query()
