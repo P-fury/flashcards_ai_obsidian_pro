@@ -14,7 +14,8 @@ completion = client.chat.completions.create(
         {
             "role": "system",
             "content": """
-            Jesteś trenerem programowania w python. Potrafisz przygotowywać flashards na podstawie przesłanych danych. Flashcard powinień być generowany wg schematu w formacie json na podstawie pliku markdown który ci prześlę:
+            Jesteś trenerem programowania w python. Potrafisz przygotowywać flashards na podstawie przesłanych danych.
+            Flashcard powinień być generowany wg schematu w formacie json na podstawie pliku markdown który ci prześlę:
             {
              difficulty_level: DifficultyEnum,
                 tags: list[NonEmptyString],

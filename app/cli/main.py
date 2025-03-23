@@ -1,14 +1,18 @@
+import re
 import time
 from typing import Iterator
 
 import typer
-from rich.table import Table
-from typer import Typer
 from rich import print
 from rich.console import Console
+from rich.table import Table
+from typer import Typer
 
 from app.controllers.create_cards import create_cards
-
+from app.controllers.get_cards_by_id import get_cards_by_id
+from app.controllers.load_cards import load_cards
+from app.controllers.save_cards import save_cards
+from app.controllers.save_deck import save_deck
 
 app: Typer = Typer(add_completion=False)
 console: Console = Console()
@@ -19,22 +23,27 @@ def menu() -> None:
     print("Choose option:")
     print("1. Create cards from Vault")
     print("2. Get cards from DB")
+    print("3. Create Deck")
 
     choice = typer.prompt("Provide option number", type=int)
 
     if choice == 1:
-        create_cards_cli()
+        cards = create_cards_cli()
         option = typer.confirm("Save to db?")
         if option:
-            ...
+            save_cards_cli(cards)
         menu()
+    elif choice == 2:
+        get_cards_cli()
+
+    elif choice == 3:
+        create_deck_cli()
     else:
         print("Thank you for using Flashcards AI")
 
 
-@app.command(name="save-cards")
-def save_cards_cli():
-    ...
+def save_cards_cli(cards: list) -> None:
+    save_cards(cards)
 
 
 def flat_if(cards: list) -> Iterator:
@@ -46,7 +55,7 @@ def flat_if(cards: list) -> Iterator:
 
 
 @app.command(name="create-cards")
-def create_cards_cli() -> None:
+def create_cards_cli() -> list:
     total = 100
     with typer.progressbar(range(total), label="Generating...") as progress:
         for _ in progress:
@@ -63,3 +72,35 @@ def create_cards_cli() -> None:
         table.add_row(card.front_side, card.difficulty_level.value)
 
     console.print(table)
+    return cards
+
+
+@app.command(name="get-cards")
+def get_cards_cli() -> None:
+    cards = load_cards()
+    table = Table("Index", "Question", "Level", title="Flashcards AI")
+
+    for card in cards:
+        table.add_row(str(card.id), card.front_side, card.difficulty_level)
+
+    console.print(table)
+
+
+@app.command(name="create-deck")
+def create_deck_cli():
+    get_cards_cli()
+
+    name = typer.prompt("Enter deck name")
+    indexes = typer.prompt("Provide indexes for deck, comma separated.", type=str)
+    indexes_digits = list({int(digit) for digit in re.findall(r"\d+", indexes)})
+
+    cards = get_cards_by_id(indexes_digits)
+
+    save_deck({
+        "name":name,
+        "card_idx": [ card.id for card in cards ],
+
+    })
+    with typer.progressbar(range(100), label="Transforming...") as progress:
+        for _ in progress:
+            time.sleep(0.05)

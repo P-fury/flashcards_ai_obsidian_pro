@@ -1,8 +1,9 @@
 
 import json
-import re
+from typing import Any, cast
 
-def parse_output_to_json(raw_output: str) -> list:
+
+def parse_output_to_json(raw_output: str) -> dict[Any, Any]:
     if raw_output.startswith("```json"):
         raw_output = raw_output[8:]
 
@@ -10,6 +11,6 @@ def parse_output_to_json(raw_output: str) -> list:
         raw_output = raw_output[:-3]
 
     try:
-        return json.loads(raw_output)
+        return cast(dict[Any,Any], json.loads(raw_output))
     except json.JSONDecodeError as e:
         raise ValueError(f"Invalid JSON input: {e}")
